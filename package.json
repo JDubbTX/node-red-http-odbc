@@ -1,0 +1,12 @@
+{
+    "name": "Node-Red-Http-Trigger",
+    "description": "Trigger a node red flow using HTTP",
+    "version": "0.0.1",
+    "dependencies": {},
+    "node-red": {
+        "settings": {
+            "flowFile": "flows.json",
+            "credentialsFile": "flows_cred.json"
+        }
+    }
+}
