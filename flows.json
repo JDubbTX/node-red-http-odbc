@@ -2,26 +2,31 @@
     {
         "id": "d884001d44cfc1f0",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "http with odbc",
         "disabled": false,
         "info": "",
         "env": []
+    },
+    {
+        "id": "db7ee6975d1f1389",
+        "type": "ODBC_CONNECTION",
+        "connection": "DSN=RZKH"
     },
     {
         "id": "fc5627a91ce0d98c",
         "type": "http in",
         "z": "d884001d44cfc1f0",
         "name": "",
-        "url": "/postthis",
-        "method": "post",
+        "url": "/employees",
+        "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 130,
+        "x": 140,
         "y": 180,
         "wires": [
             [
                 "67f5a3ceb2f05830",
-                "3c1a8c5d488aae04"
+                "dad89d1ecb61296b"
             ]
         ]
     },
@@ -29,16 +34,17 @@
         "id": "67f5a3ceb2f05830",
         "type": "debug",
         "z": "d884001d44cfc1f0",
-        "name": "debug 1",
-        "active": false,
+        "name": "Get Employees",
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 220,
-        "y": 340,
+        "x": 320,
+        "y": 300,
         "wires": []
     },
     {
@@ -49,38 +55,35 @@
         "statusCode": "",
         "headers": {},
         "x": 550,
-        "y": 160,
+        "y": 180,
         "wires": []
     },
     {
         "id": "d2d01aef5018fe00",
         "type": "debug",
         "z": "d884001d44cfc1f0",
-        "name": "debug 2",
-        "active": false,
+        "name": "Query Employees",
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 460,
-        "y": 300,
+        "x": 590,
+        "y": 240,
         "wires": []
     },
     {
-        "id": "3c1a8c5d488aae04",
-        "type": "function",
+        "id": "dad89d1ecb61296b",
+        "type": "ODBC",
         "z": "d884001d44cfc1f0",
-        "name": "function 1",
-        "func": "node.warn(msg.payload);\n\nvar newMsg = { payload: msg.payload.length };\n\nnode.warn(newMsg);\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 360,
+        "connection": "db7ee6975d1f1389",
+        "name": "Employee query",
+        "query": "select * from employee \nwhere WORKDEPT = '{{payload{WORKDEPT}}}'",
+        "outField": "payload",
+        "x": 380,
         "y": 180,
         "wires": [
             [
@@ -88,5 +91,47 @@
                 "6ebb071f62a7faaa"
             ]
         ]
+    },
+    {
+        "id": "075a19ed11cad6bd",
+        "type": "inject",
+        "z": "d884001d44cfc1f0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "A00",
+        "payloadType": "str",
+        "x": 190,
+        "y": 100,
+        "wires": [
+            [
+                "dad89d1ecb61296b",
+                "6045095c6fc54bab"
+            ]
+        ]
+    },
+    {
+        "id": "6045095c6fc54bab",
+        "type": "debug",
+        "z": "d884001d44cfc1f0",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 100,
+        "wires": []
     }
 ]
