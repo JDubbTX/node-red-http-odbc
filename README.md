@@ -38,7 +38,7 @@ TrueAutoCommit         = 1
 7. You can also add any field names as parameters to the endpoint
    * http://127.0.0.1:1880/departments?DEPTNO=A00&MGRNO=000010
      
-8. Expirament/create endpoints that return info from your own tables on IBM i.
+8. Experiment/create endpoints that return info from your own tables on IBM i.
 
 https://github.com/user-attachments/assets/e3faeb9b-9f38-4fd4-b4bb-770e3c106852
 
