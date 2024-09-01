@@ -2,7 +2,7 @@
     {
         "id": "d884001d44cfc1f0",
         "type": "tab",
-        "label": "http with odbc",
+        "label": "Http REST APIs with ODBC",
         "disabled": false,
         "info": "",
         "env": []
@@ -10,7 +10,7 @@
     {
         "id": "db7ee6975d1f1389",
         "type": "ODBC_CONNECTION",
-        "connection": "DSN=RZKH"
+        "connection": "DSN=DB2CON"
     },
     {
         "id": "fc5627a91ce0d98c",
