@@ -1,22 +1,22 @@
-Node-Red-Http-odbc
+# Node-Red-Http-odbc
 =====================
 <img width="937" alt="image" src="https://github.com/user-attachments/assets/ea703aee-6798-4ba4-9993-8be523273b3e">
 Create HTTP end points using Node RED and ODBC
 
 ### About
 
-This project offers a way to create REST Apis for retrieving infomation from IBM i.  This is for demonstration purposes only.
+This project offers a way to create REST APIs for retrieving infomation from IBM i tables.  This repository is for demonstration purposes only.
 
-Software Requirements:
-Node Red
-ODBC and UnixODBC
+### Software Requirements
+* [Node-RED](https://nodered.org/docs/getting-started/local) (on your local PC or on IBM i)
+* [ODBC](https://ibmi-oss-docs.readthedocs.io/en/latest/odbc/installation.html)
 
-Modules to install in the pallette:
-@ais_automation/node-red-contrib-odbc
+### Required Node-RED Modules to install in the pallette
+* [@ais_automation/node-red-contrib-odbc](https://flows.nodered.org/node/@ais_automation/node-red-contrib-odbc)
 
 Steps
 1. Install all required software / drivers
-2. On IBM i, set up sample IBM i tables:  `CALL QSYS.CREATE_SQL_SAMPLE ('LIBNAME');`
+2. On IBM i, set up the sample IBM i tables:  `CALL QSYS.CREATE_SQL_SAMPLE ('LIBNAME');`
 3. Create an ODBC DSN entry in your _~/.odbc.ini_ file.  Name it DB2CON, enter your System (DNS or IP Address), UserID, Password, and DefaultLibraries.
 ```
 [DB2CON]
@@ -30,8 +30,8 @@ DefaultLibraries       = LIBNAME
 TrueAutoCommit         = 1
 ```
 4. start `node-red`
-5. Either start node-red in project mode, or import flows.json into node-red.
-6. Use your favorite REST client (i.e. POSTMAN, Thunder Client, etc.) to test endpoints for employee and department.
+5. Either start node-red in project mode and clone this project into Node-RED, or import flows.json into Node-RED.
+6. Use your favorite REST client (i.e. Postman, Thunder Client, etc.) to test endpoints for employee and department.
    * http://127.0.0.1:1880/departments
    * http://127.0.0.1:1880/employees
   
