@@ -21,20 +21,203 @@
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 140,
+        "x": 100,
         "y": 180,
         "wires": [
             [
-                "67f5a3ceb2f05830",
-                "dad89d1ecb61296b"
+                "2de517b9ced1927b"
             ]
         ]
     },
     {
-        "id": "67f5a3ceb2f05830",
-        "type": "debug",
+        "id": "6ebb071f62a7faaa",
+        "type": "http response",
+        "z": "d884001d44cfc1f0",
+        "name": "Employee Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 840,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "e123808eb7c747e6",
+        "type": "comment",
         "z": "d884001d44cfc1f0",
         "name": "Get Employees",
+        "info": "A simple http endpoint that returns an array of employees based on department",
+        "x": 100,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "2de517b9ced1927b",
+        "type": "switch",
+        "z": "d884001d44cfc1f0",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "empty"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 250,
+        "y": 180,
+        "wires": [
+            [
+                "c9c3dd253c83ee01"
+            ],
+            [
+                "da118c139d2f1256"
+            ]
+        ]
+    },
+    {
+        "id": "2b95e8b51a5b3d77",
+        "type": "http in",
+        "z": "d884001d44cfc1f0",
+        "name": "",
+        "url": "/departments",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 380,
+        "wires": [
+            [
+                "b57fb27d6ca1879f"
+            ]
+        ]
+    },
+    {
+        "id": "b57fb27d6ca1879f",
+        "type": "switch",
+        "z": "d884001d44cfc1f0",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "empty"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 270,
+        "y": 380,
+        "wires": [
+            [
+                "9351329a55947c40"
+            ],
+            [
+                "89f5d5ae2d6ef5d6"
+            ]
+        ]
+    },
+    {
+        "id": "55bb9a863111f2de",
+        "type": "ODBC",
+        "z": "d884001d44cfc1f0",
+        "connection": "db7ee6975d1f1389",
+        "name": "Query Dept",
+        "query": "{{{payload.query}}}",
+        "outField": "payload",
+        "x": 550,
+        "y": 440,
+        "wires": [
+            [
+                "4b1a8b64c7e1a99e",
+                "cf0f91fff5f2a81a"
+            ]
+        ]
+    },
+    {
+        "id": "9351329a55947c40",
+        "type": "ODBC",
+        "z": "d884001d44cfc1f0",
+        "connection": "db7ee6975d1f1389",
+        "name": "Return All Departments",
+        "query": "select * from dept",
+        "outField": "payload",
+        "x": 590,
+        "y": 380,
+        "wires": [
+            [
+                "4b1a8b64c7e1a99e"
+            ]
+        ]
+    },
+    {
+        "id": "da118c139d2f1256",
+        "type": "function",
+        "z": "d884001d44cfc1f0",
+        "name": "Build SQL",
+        "func": "const objToQuery = o =>\n  Object.entries(o).map(([k, v]) => \n    `${k} = ` + (typeof v === \"number\" ? v : `'${v}'`)\n  ).join(\" AND \")\n;\nmsg.payload.query = \"select * from employee where \" + objToQuery(msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 240,
+        "wires": [
+            [
+                "b315a4a449dda894",
+                "9799cac5a1914950"
+            ]
+        ]
+    },
+    {
+        "id": "b315a4a449dda894",
+        "type": "debug",
+        "z": "d884001d44cfc1f0",
+        "name": "Show Employee Query",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "9799cac5a1914950",
+        "type": "ODBC",
+        "z": "d884001d44cfc1f0",
+        "connection": "db7ee6975d1f1389",
+        "name": "Query Employees",
+        "query": "{{{payload.query}}}",
+        "outField": "payload",
+        "x": 570,
+        "y": 240,
+        "wires": [
+            [
+                "d5fe3207a76b9d54",
+                "6ebb071f62a7faaa"
+            ]
+        ]
+    },
+    {
+        "id": "d5fe3207a76b9d54",
+        "type": "debug",
+        "z": "d884001d44cfc1f0",
+        "name": "Show Employee Query Results",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -43,26 +226,73 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 320,
-        "y": 300,
+        "x": 870,
+        "y": 240,
         "wires": []
     },
     {
-        "id": "6ebb071f62a7faaa",
+        "id": "c9c3dd253c83ee01",
+        "type": "ODBC",
+        "z": "d884001d44cfc1f0",
+        "connection": "db7ee6975d1f1389",
+        "name": "Return all employees",
+        "query": "select * from employee",
+        "outField": "payload",
+        "x": 580,
+        "y": 180,
+        "wires": [
+            [
+                "6ebb071f62a7faaa"
+            ]
+        ]
+    },
+    {
+        "id": "4b1a8b64c7e1a99e",
         "type": "http response",
         "z": "d884001d44cfc1f0",
-        "name": "",
+        "name": "Dept Response",
         "statusCode": "",
         "headers": {},
-        "x": 550,
-        "y": 180,
+        "x": 820,
+        "y": 380,
         "wires": []
     },
     {
-        "id": "d2d01aef5018fe00",
+        "id": "89f5d5ae2d6ef5d6",
+        "type": "function",
+        "z": "d884001d44cfc1f0",
+        "name": "Build SQL",
+        "func": "const objToQuery = o =>\n  Object.entries(o).map(([k, v]) => \n    `${k} = ` + (typeof v === \"number\" ? v : `'${v}'`)\n  ).join(\" AND \")\n;\nmsg.payload.query = \"select * from dept where \" + objToQuery(msg.payload);\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 440,
+        "wires": [
+            [
+                "55bb9a863111f2de",
+                "8bdf024c10fb8c29"
+            ]
+        ]
+    },
+    {
+        "id": "39faf9a3f1427971",
+        "type": "comment",
+        "z": "d884001d44cfc1f0",
+        "name": "Get Departments",
+        "info": "A simple http endpoint that returns an array of employees based on department",
+        "x": 100,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "8bdf024c10fb8c29",
         "type": "debug",
         "z": "d884001d44cfc1f0",
-        "name": "Query Employees",
+        "name": "Show Department Query",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -72,66 +302,34 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 590,
-        "y": 240,
+        "y": 500,
         "wires": []
     },
     {
-        "id": "dad89d1ecb61296b",
-        "type": "ODBC",
-        "z": "d884001d44cfc1f0",
-        "connection": "db7ee6975d1f1389",
-        "name": "Employee query",
-        "query": "select * from employee \nwhere WORKDEPT = '{{payload{WORKDEPT}}}'",
-        "outField": "payload",
-        "x": 380,
-        "y": 180,
-        "wires": [
-            [
-                "d2d01aef5018fe00",
-                "6ebb071f62a7faaa"
-            ]
-        ]
-    },
-    {
-        "id": "075a19ed11cad6bd",
-        "type": "inject",
-        "z": "d884001d44cfc1f0",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "A00",
-        "payloadType": "str",
-        "x": 190,
-        "y": 100,
-        "wires": [
-            [
-                "dad89d1ecb61296b",
-                "6045095c6fc54bab"
-            ]
-        ]
-    },
-    {
-        "id": "6045095c6fc54bab",
+        "id": "cf0f91fff5f2a81a",
         "type": "debug",
         "z": "d884001d44cfc1f0",
-        "name": "debug 3",
+        "name": "Show Dept Query Results",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 420,
-        "y": 100,
+        "x": 850,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "642ccad176c60a46",
+        "type": "comment",
+        "z": "d884001d44cfc1f0",
+        "name": "IBM i REST API",
+        "info": "# REST API\nFor each table, the http request will be transformed into SQL and the ODBC connection will query the database.",
+        "x": 580,
+        "y": 60,
         "wires": []
     }
 ]
