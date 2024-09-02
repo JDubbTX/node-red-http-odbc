@@ -5,7 +5,9 @@ Create HTTP end points using Node RED and ODBC
 
 ### About
 
-This project offers a way to create REST APIs for retrieving infomation from IBM i tables.  This repository is for demonstration purposes only.
+This project offers a way to create REST APIs for retrieving infomation from IBM i tables.  
+
+ **WARNING!** This repository is for demonstration purposes only.  The example javascript function contained in the flow is likely susceptable to SQL injection.  The use case is solid, just don't use a function to convert parameter names into SQL.
 
 ### Software Requirements
 * [Node-RED](https://nodered.org/docs/getting-started/local) (on your local PC or on IBM i)
